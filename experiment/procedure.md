@@ -1,1 +1,3 @@
-### Procedure
+- Edit parameters in variables section to see the change in position diagram.
+- For crank and connecting rod the method of drawing velocity vectors is same as in case of links in four bar mechanism.
+- For slider the velocity is parallel to the slider axis (Slider can be considered as a rotating link with center at infinite distance).
