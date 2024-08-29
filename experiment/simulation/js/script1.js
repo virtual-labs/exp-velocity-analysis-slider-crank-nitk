@@ -112,6 +112,7 @@ function rotstate() {
 }
 
 
+
 function varinit() {
   varchange();
  
@@ -129,29 +130,38 @@ function varinit() {
 }
 
 
+$(document).ready(function() {
+  varchange();
+});
+
 function varchange() {
+  // Initialize r2 slider and spinner
+  $('#r2slider').slider({ max: 60, min: 20, step: 2 });
+  $('#r2spinner').spinner({ max: 60, min: 20, step: 2 });
 
-  $("#r2slider").slider({ max: 60, min: 20, step: 2 }); 
-  $("#r2spinner").spinner({ max: 60, min: 20, step: 2 }); 
-
+  // Link r2 slider and spinner
   $("#r2slider").on("slide", function (e, ui) {
     $("#r2spinner").spinner("value", ui.value);
+    updateR3Limits(ui.value, false);
     ptx = [];
     pty = [];
   });
   $("#r2spinner").on("spin", function (e, ui) {
     $("#r2slider").slider("value", ui.value);
+    updateR3Limits(ui.value, false);
     ptx = [];
     pty = [];
   });
   $("#r2spinner").on("change", function () {
-    varchange();
+    updateR3Limits($("#r2spinner").spinner("value"), false);
+    varupdate();
   });
 
+  // Initialize r3 slider and spinner
+  $('#r3slider').slider({ max: 240, min: 30, step: 2 });
+  $('#r3spinner').spinner({ max: 240, min: 30, step: 2 });
 
-  $("#r3slider").slider({ max: 240, min: 80, step: 2 }); // slider initialisation : jQuery widget
-  $("#r3spinner").spinner({ max: 240, min: 80, step: 2 }); // number initialisation : jQuery widget
-
+  // Link r3 slider and spinner
   $("#r3slider").on("slide", function (e, ui) {
     $("#r3spinner").spinner("value", ui.value);
     ptx = [];
@@ -163,14 +173,14 @@ function varchange() {
     pty = [];
   });
   $("#r3spinner").on("change", function () {
-    varchange();
+    varupdate();
   });
 
+  // Initialize theta2 slider and spinner
+  $("#theta2slider").slider({ max: 360, min: 0, step: 2 });
+  $("#theta2spinner").spinner({ max: 360, min: 0, step: 2 });
 
-  $("#theta2slider").slider({ max: 360, min: 0, step: 2 }); // slider initialisation : jQuery widget
-  $("#theta2spinner").spinner({ max: 360, min: 0, step: 2 }); // number initialisation : jQuery widget
-  // monitoring change in value and connecting slider and number
-  // setting trace point coordinate arrays to empty on change of link length
+  // Link theta2 slider and spinner
   $("#theta2slider").on("slide", function (e, ui) {
     $("#theta2spinner").spinner("value", ui.value);
     ptx = [];
@@ -182,14 +192,14 @@ function varchange() {
     pty = [];
   });
   $("#theta2spinner").on("change", function () {
-    varchange();
+    varupdate();
   });
 
-  //Variable omega2 slider and number input types
-  $("#omega2slider").slider({ max: 10, min: 1, step: 0.2 }); // slider initialisation : jQuery widget
-  $("#omega2spinner").spinner({ max: 10, min: 1, step: 0.2 }); // number initialisation : jQuery widget
-  // monitoring change in value and connecting slider and number
-  // setting trace point coordinate arrays to empty on change of link length
+  // Initialize omega2 slider and spinner
+  $("#omega2slider").slider({ max: 10, min: 1, step: 0.2 });
+  $("#omega2spinner").spinner({ max: 10, min: 1, step: 0.2 });
+
+  // Link omega2 slider and spinner
   $("#omega2slider").on("slide", function (e, ui) {
     $("#omega2spinner").spinner("value", ui.value);
     ptx = [];
@@ -201,93 +211,123 @@ function varchange() {
     pty = [];
   });
   $("#omega2spinner").on("change", function () {
-    varchange();
+    varupdate();
   });
 
   varupdate();
 }
 
-//Computing of various system parameters
+function updateR3Limits(r2Value, updateSlider) {
+  const maxR3 = 6 * r2Value;
+  const minR3 = 2.5 * r2Value;
+
+  $('#r3slider').slider("option", "max", maxR3);
+  $('#r3slider').slider("option", "min", minR3);
+  $('#r3spinner').spinner("option", "max", maxR3);
+  $('#r3spinner').spinner("option", "min", minR3);
+
+  const r3Value = $('#r3spinner').spinner("value");
+  if (r3Value < minR3) {
+    $('#r3spinner').spinner("value", minR3);
+    if (updateSlider) {
+      $('#r3slider').slider("value", minR3);
+    }
+  } else if (r3Value > maxR3) {
+    $('#r3spinner').spinner("value", maxR3);
+    if (updateSlider) {
+      $('#r3slider').slider("value", maxR3);
+    }
+  } else {
+    $('#r3spinner').spinner("value", r3Value);
+    if (updateSlider) {
+      $('#r3slider').slider("value", r3Value);
+    }
+  }
+}
+
 function varupdate() {
-  $("#r2slider").slider("value", $("#r2spinner").spinner("value")); //updating slider location with change in spinner(debug)
-  $("#r3slider").slider("value", $("#r3spinner").spinner("value"));
-  $("#theta2slider").slider("value", $("#theta2spinner").spinner("value"));
+  // Update theta2 value
+  $('#theta2slider').slider("value", $('#theta2spinner').spinner('value'));
 
-  r = $("#r2spinner").spinner("value");
-  l = $("#r3spinner").spinner("value");
-  $("#r3slider").slider({ max: 6 * $("#r2slider").slider("value") });
-  $("#r3slider").slider({ min: 2.5 * $("#r2slider").slider("value") });
-  $("#r3spinner").spinner({ max: 6 * $("#r2slider").slider("value") });
-  $("#r3spinner").spinner({ min: 2.5 * $("#r2slider").slider("value") });
+  const r = $('#r2spinner').spinner("value");
+  const l = $('#r3spinner').spinner("value");
+
+  updateR3Limits(r, true);
+
   if (!simstatus) {
-    $("#omega2slider").slider("enable");
-    $("#omega2spinner").spinner("enable");
+    $('#omega2slider').slider("enable");
+    $('#omega2spinner').spinner("enable");
 
-    $("#theta2slider").slider("disable");
-    $("#theta2spinner").spinner("disable");
-    omega2 = rotstatus * $("#omega2spinner").spinner("value");
+    $('#theta2slider').slider("disable");
+    $('#theta2spinner').spinner("disable");
+
+    omega2 = rotstatus * $('#omega2spinner').spinner("value");
     printcomment("", 2);
-    theta2 = theta2 + 0.1 * deg(omega2);
+    theta2 = theta2 + (0.1 * deg(omega2));
     theta2 = theta2 % 360;
     if (theta2 < 0) theta2 += 360;
   }
+
   if (simstatus) {
-    $("#theta2slider").slider("enable");
-    $("#theta2spinner").spinner("enable");
-    $("#omega2slider").slider("disable");
-    $("#omega2spinner").spinner("disable");
-    omega2 = rotstatus * $("#omega2spinner").spinner("value");
-    theta2 = $("#theta2spinner").spinner("value");
+    $('#theta2slider').slider("enable");
+    $('#theta2spinner').spinner("enable");
+    $('#omega2slider').slider("disable");
+    $('#omega2spinner').spinner("disable");
+
+    omega2 = rotstatus * $('#omega2spinner').spinner("value");
+    theta2 = $('#theta2spinner').spinner("value");
   }
+
   phi = deg(Math.asin((r * Math.sin(rad(theta2))) / l));
   theta3 = -phi;
+
   o.xcoord = 0;
   o.ycoord = 0;
+
   a.xcoord = o.xcoord + scaleP * r * Math.cos(rad(theta2));
   a.ycoord = o.ycoord + scaleP * r * Math.sin(rad(theta2));
+
   b.xcoord = a.xcoord + scaleP * l * Math.cos(rad(phi));
   b.ycoord = o.ycoord;
 
-  //Velocity Calculations
-  if (Math.abs(r * omega2) < 50) scaleV = 2;
-  else if (Math.abs(r * omega2) >= 50 && Math.abs(r * omega2) < 150) scaleV = 1;
-  else if (Math.abs(r * omega2) >= 150 && Math.abs(r * omega2) < 400)
-    scaleV = 0.5;
-  else if (Math.abs(r * omega2) >= 400) scaleV = 0.25;
-  else scaleV = 1;
+  // Velocity Calculations
+  let scaleV = 1;
+  const absRomega2 = Math.abs(r * omega2);
 
-  vela = r * omega2;
-  velba = (vela * Math.sin(rad(90 + theta2))) / Math.sin(rad(90 + phi));
-  velb = (vela * Math.sin(rad(theta2 + phi))) / Math.sin(rad(90 + phi));
+  if (absRomega2 < 50) {
+    scaleV = 2;
+  } else if (absRomega2 >= 50 && absRomega2 < 150) {
+    scaleV = 1;
+  } else if (absRomega2 >= 150 && absRomega2 < 400) {
+    scaleV = 0.5;
+  } else if (absRomega2 >= 400) {
+    scaleV = 0.25;
+  }
+
+  const vela = r * omega2;
+  const velba = vela * Math.sin(rad(90 + theta2)) / Math.sin(rad(90 + phi));
+  const velb = vela * Math.sin(rad(theta2 + phi)) / Math.sin(rad(90 + phi));
+
   vo.xcoord = 0;
   vo.ycoord = 0;
+
   va.xcoord = vo.xcoord + scaleV * vela * Math.cos(rad(90 + theta2));
   va.ycoord = vo.ycoord + scaleV * vela * Math.sin(rad(90 + theta2));
+
   vba.xcoord = va.xcoord + scaleV * velba * Math.cos(rad(270 - phi));
   vba.ycoord = va.ycoord + scaleV * velba * Math.sin(rad(270 - phi));
+
   vb.xcoord = vo.xcoord + scaleV * velb * Math.cos(rad(180));
   vb.ycoord = vo.ycoord + scaleV * velb * Math.sin(rad(0));
-  //printcomment(pointdist(vo,vba)+" calc "+velb,1);
+
   omega3 = -velba / l;
-  //printcomment("Limits of l for the set r : "+$('#r3spinner').spinner("option","min")+" and\n "+$('#r3spinner').spinner("option","max")+" ",1);
-  printcomment(
-    "V<sub>xy</sub>=Velocity of x with respect to y<br>V<sub>x</sub>=Velocity of x with respect to ground",
-    1
-  );
-  printcomment(
-    "V<sub>a</sub>=" +
-      roundd(vela, 2) +
-      " mm/s &nbsp;&nbsp;&nbsp; &omega;<sub>3</sub>=" +
-      roundd(omega3, 2) +
-      "rad/s<br>V<sub>ba</sub>=" +
-      roundd(-velba, 2) +
-      " mm/s<br>V<sub>b</sub>=" +
-      roundd(-velb, 2) +
-      " mm/s",
-    2
-  );
+
+  printcomment("V<sub>xy</sub>=Velocity of x with respect to y<br>V<sub>x</sub>=Velocity of x with respect to ground", 1);
+  printcomment("V<sub>a</sub>=" + roundd(vela, 2) + " mm/s &nbsp;&nbsp;&nbsp; &omega;<sub>3</sub>=" + roundd(omega3, 2) + "rad/s<br>V<sub>ba</sub>=" + roundd(-velba, 2) + " mm/s<br>V<sub>b</sub>=" + roundd(-velb, 2) + " mm/s", 2);
+
   draw();
 }
+
 
 //Simulation graphics
 function draw() {
@@ -336,7 +376,7 @@ function draw() {
   ctx.strokeText("A", a.xcoord - 3, a.ycoord + 3);
   ctx.save();
   ctx.translate(0.75, 0.75);
-  ctx.font = "12px 'Comic Sans MS'";
+  ctx.font = "650 1.3rem 'Nunito'";
   ctx.fillStyle = "#000";
   if (scaleV >= 1) ctx.fillText("Scale = 1:" + scaleV, 225, 165);
   if (scaleV < 1) ctx.fillText("Scale = " + 1 / scaleV + ":1", 225, 165);
@@ -441,16 +481,17 @@ function drawrem(context) {
 
   // Position Analysis Title
   context.save();
-  ctx.translate(0.5, 0.5);
+  // ctx.translate(0.5, 0.5);
+  
   context.lineWidth = 1;
-  context.font = "15px 'Nunito', 'sans-serif'";
+  context.font = "600 1.8rem 'Nunito'";
   context.fillStyle = "#000000";
   context.fillText("Position Diagram", 225, 15);
   context.restore();
   ctx.save();
   ctx.translate(0.5, 0.5);
   context.lineWidth = 1;
-  context.font = "15px 'Nunito', 'sans-serif'";
+  context.font = "600 1.8rem 'Nunito'";
   context.fillStyle = "#000000";
   context.fillText("Velocity Diagram", 225, 150);
   context.restore();
@@ -458,7 +499,7 @@ function drawrem(context) {
   context.save();
   context.lineWidth = 1;
   context.fillStyle = "#000000";
-  context.font = "12px Arial";
+  context.font = "650 1.8rem 'Nunito";
   context.fillText("d", (o.xcoord + b.xcoord) / 2, o.ycoord - offset - 10);
   context.fillText(
     "r",
@@ -481,12 +522,12 @@ function printcomment(commenttext, commentloc) {
     document.getElementById("commentboxleft").innerHTML = commenttext;
   } else if (commentloc == 1) {
     document.getElementById("commentboxright").style.visibility = "visible";
-    document.getElementById("commentboxleft").style.width = "285px";
+    document.getElementById("commentboxleft").style.width = "290px";
 
     document.getElementById("commentboxleft").innerHTML = commenttext;
   } else if (commentloc == 2) {
     document.getElementById("commentboxright").style.visibility = "visible";
-    document.getElementById("commentboxleft").style.width = "285px";
+    document.getElementById("commentboxleft").style.width = "290px";
     document.getElementById("commentboxright").innerHTML = commenttext;
   } else {
     document.getElementById("commentboxright").style.visibility = "hidden";
