@@ -82,7 +82,7 @@ h1 {
   display: flex;
   flex-direction: row;
   background-color: var(--clr-container-clr);
-  height: 100vh;
+  /* height: 100vh; */
   gap: 0.5rem;
 }
 
@@ -136,6 +136,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 }
 
 .tool-list span {
@@ -158,6 +159,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+ 
 }
 
 
@@ -186,12 +188,21 @@ h1 {
 
 .main-section {
   display: grid;
+  place-items: center;
+  /* grid-template-columns: 50fr 50fr; */
   gap: 0.5rem;
   overflow-y: auto;
   scroll-behavior: smooth;
   padding: 0 0.5rem 0 0;
 }
 
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+ 
+}
 
 .main__task-div {
   width: 100%;
@@ -273,18 +284,21 @@ h1 {
   border: 1px solid var(--clr-title-background);
   background-color: #fff;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0;
+  /* grid-template-columns: repeat(2, 1fr); */
+  place-items: center;
+  /* gap: 0;
   flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: row; */
   height: auto;
   border-bottom-right-radius: 1rem;
   border-bottom-left-radius: 1rem;
 }
 
 #canvas-container {
-  width: 100%;
-  height: auto;
+ display: grid;
+ place-items: center;
+ /* width: 100%;
+ height: auto; */
  
   
 }
@@ -397,13 +411,14 @@ html {
 
 .variables-sections,
 .control-sections {
-  padding: 1rem 0rem 1rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
 
 
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   align-items: center;
+  width: 100%;
 }
 
 .var-div {
@@ -434,5 +449,15 @@ html {
 
 #commentboxleft,
 #commentboxright {
-  margin-left: 120px;
+  align-items: center;
+  /* margin-left: 120px; */
+}
+
+#commentboxright{
+  margin-left: -71px;
+  /* align-items: center; */
+}
+
+.text{
+  font-size: 16px;
 }
