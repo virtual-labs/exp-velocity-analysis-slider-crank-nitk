@@ -24,6 +24,7 @@ html {
   /* font-family: "comic sans MS", sans-serif; */
   font-family: "Nunito", sans-serif;
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -40,14 +41,13 @@ h3 {
   color: #333;
 }
 
-
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.25rem;
   left: -5rem;
 }
 
 ::-moz-scrollbar {
-  width: 0.5rem;
+  width: 0.25rem;
   left: -5rem;
 }
 
@@ -172,8 +172,6 @@ h3 {
   background-position: 0 0;
 }
 
-
-
 .ui-slider-horizontal {
   height: 5px;
   /* width: inherit; */
@@ -229,13 +227,15 @@ h3 {
 }
 
 .highlight {
-  background: linear-gradient(to bottom,
-      #f7c3a9da,
-      #c17a53da,
-      #c17a53da,
-      #c17a53da,
-      #c17a53da,
-      #311b10da);
+  background: linear-gradient(
+    to bottom,
+    #f7c3a9da,
+    #c17a53da,
+    #c17a53da,
+    #c17a53da,
+    #c17a53da,
+    #311b10da
+  );
   height: 100%;
   width: 0;
 }
