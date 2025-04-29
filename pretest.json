@@ -1,0 +1,91 @@
+{
+    "version": 2.0,
+    "questions": [
+      {
+        "question": "For l/r ratio 2, when crank and connecting rod are making equal angle with +X axis what is the ratio of angular velocity of crank and connecting rod?",
+        "answers": {
+          "a": "2",
+          "b": "0.5",
+          "c": "4",
+          "d": "None of these"
+        },
+        "explanations": {
+          "a": "",
+          "b": "",
+          "c": "",
+          "d": ""
+        },
+        "correctAnswer": "a",
+        "difficulty": ""
+      },
+      {
+        "question": "At 0<sup>o</sup> crank angle of zero offset slider crank mechanism what is direction of angular velocity of connecting rod?",
+        "answers": {
+          "a": "Always counterclockwise",
+          "b": "Opposite of direction of crank rotation",
+          "c": "Always clockwise",
+          "d": "Depends on link lengths"
+        },
+        "explanations": {
+          "a": "",
+          "b": "",
+          "c": "",
+          "d": ""
+        },
+        "correctAnswer": "b",
+        "difficulty": ""
+      },
+      {
+        "question": "Direction of velocity of 5cm crank rotating at 3rpm (CW) ?",
+        "answers": {
+          "a": "Perpendicular to crank opposite to direction of rotation",
+          "b": "Along the crank directed towards center",
+          "c": "Perpendicular to crank in the direction of rotation",
+          "d": "Along the crank away from the center"
+        },
+        "explanations": {
+          "a": "",
+          "b": "",
+          "c": "",
+          "d": ""
+        },
+        "correctAnswer": "c",
+        "difficulty": ""
+      },
+      {
+        "question": "Velocity vector of slider is",
+        "answers": {
+          "a": "Perpendicular to axis of slider",
+          "b": "Parallel to the axis of slider",
+          "c": "At 45<sup>o</sup> to the axis of slider",
+          "d": "None of these"
+        },
+        "explanations": {
+          "a": "",
+          "b": "",
+          "c": "",
+          "d": ""
+        },
+        "correctAnswer": "b",
+        "difficulty": ""
+      },
+      {
+        "question": "Direction of angular velocity of crank and connecting rod is same at which of the following positions of crank angles",
+        "answers": {
+          "a": "120<sup>o</sup>",
+          "b": "0<sup>o</sup>",
+          "c": "60<sup>o</sup>",
+          "d": "None of these"
+        },
+        "explanations": {
+          "a": "",
+          "b": "",
+          "c": "",
+          "d": ""
+        },
+        "correctAnswer": "a",
+        "difficulty": ""
+      }
+    ]
+  }
+  

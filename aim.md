@@ -1,0 +1,1 @@
+ To determine the velocity of the slider crank mechanism given, the input is crank (ω<sub>2</sub>), thereby to find swing angle of connecting rod and minimum bore diameter required for a given I/r ratio (crank and connecting rod) and find the angular velocity of coupler link (ω<sub>3</sub>)
