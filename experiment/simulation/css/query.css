@@ -215,10 +215,6 @@
     margin-left: 5px;
   } */
 
-  #commentboxleft,
-  #commentboxright {
-    /* margin-left: 145px; */
-  }
   p {
     margin-bottom: 70px;
   }
@@ -291,12 +287,9 @@
     font-size: 1rem;
   }
 
-  /* #canvas-container {
-    width: 100%;
-    height: auto;
-   
-    margin-left: -25px;
-  } */
+  .comments {
+    grid-template-columns: 1fr;
+  }
   .variables-sections {
     margin-left: -25px;
   }
@@ -322,17 +315,6 @@
     padding: 0.2rem;
     font-size: 1.6rem;
   }
-  /* #simscreen{
-      height: 400px;
-      width: 450px;
-    } */
-  /* 
-    #commentboxleft,
-    #commentboxright {
-    position: relative;
-    right: 20px;
-  
-    } */
 
   .div__control {
     gap: 2rem;
@@ -389,11 +371,6 @@
       width: 100%;
       height: auto;
       margin-left: -25px;
-    } */
-
-  /* #commentboxleft,
-    #commentboxright {
-      margin-left: 60px;
     } */
 
   div.main__task-div.footer {
